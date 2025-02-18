@@ -6,13 +6,16 @@
 
 It is inspired by the great jvm lib "awaitility" (see https://github.com/awaitility/awaitility)
 
+This package is a fork of the older github.com/ecodia/golang-awaitility with the aim of adding a go module to help
+with the managment of this package inside of Go projects based beyond the Go 1.12 version.
+
 ## Example
 
 ```go
 package example
 
 import (
-	"github.com/ecodia/golang-awaitility/awaitility"
+	"github.com/TafThorne/golang-awaitility/awaitility"
 	"testing"
 	"time"
 	)
