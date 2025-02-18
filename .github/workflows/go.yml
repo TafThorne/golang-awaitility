@@ -11,10 +11,23 @@ on:
 
 jobs:
 
+  code-check:
+    name: Check formatting and vetting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Run the formatter and vetter
+        uses: dell/common-github-actions/go-code-formatter-vetter@main
+        with:
+          directories: ./...
+
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout the code
+      uses: actions/checkout@v4
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -26,3 +39,4 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
