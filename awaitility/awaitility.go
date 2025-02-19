@@ -5,7 +5,6 @@ package awaitility
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"runtime/debug"
 	"strings"
 	"time"
@@ -58,18 +57,18 @@ func Await(pollInterval time.Duration, atMost time.Duration, until func() bool) 
 			if conditionOk {
 				return nil
 			} else {
-				timeLeft = atMost - time.Now().Sub(startTime)
+				timeLeft = atMost - time.Since(startTime)
 
 				if timeLeft <= 0 {
 					stackTrace := string(debug.Stack())
-					return errors.New(fmt.Sprintf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace))
+					return fmt.Errorf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace)
 				} else {
 					go untilWrapper(until, resultChan)
 				}
 			}
 		case <-time.After(timeLeft):
 			stackTrace := string(debug.Stack())
-			return errors.New(fmt.Sprintf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace))
+			return fmt.Errorf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace)
 		}
 		time.Sleep(pollInterval)
 	}
@@ -127,11 +126,11 @@ func AwaitBlocking(pollInterval time.Duration, atMost time.Duration, until func(
 		if until() {
 			return nil
 		} else {
-			timeLeft = atMost - time.Now().Sub(startTime)
+			timeLeft = atMost - time.Since(startTime)
 
 			if timeLeft <= 0 {
 				stackTrace := string(debug.Stack())
-				return errors.New(fmt.Sprintf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace))
+				return fmt.Errorf("%s: %d ms\n%s", TIMEOUT_ERROR, atMost/time.Millisecond, stackTrace)
 			}
 		}
 
