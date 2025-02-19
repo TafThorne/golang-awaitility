@@ -42,7 +42,7 @@ func TestAwaitFalse(t *testing.T) {
 		return false
 	})
 
-	delta := time.Now().Sub(startTime) / time.Millisecond
+	delta := time.Since(startTime) / time.Millisecond
 
 	if delta > 20 {
 		t.Errorf("Took too long to cancel, took %dms, expected to be under 20ms", delta)
@@ -79,7 +79,7 @@ func TestPassTimeInFunc(t *testing.T) {
 		return true
 	})
 
-	delta := time.Now().Sub(startTime) / time.Millisecond
+	delta := time.Since(startTime) / time.Millisecond
 
 	if delta > 100 {
 		t.Errorf("Took too long to cancel, took %dms, expected to be under 100ms", delta)
@@ -183,7 +183,7 @@ func TestPassTimeInFuncBlocking(t *testing.T) {
 		return true
 	})
 
-	delta := time.Now().Sub(startTime) / time.Millisecond
+	delta := time.Since(startTime) / time.Millisecond
 
 	if delta < 200 {
 		t.Errorf("Took not long enough, took %dms, expected to be over 200ms", delta)
@@ -230,7 +230,7 @@ func TestAwaitBlockingFalse(t *testing.T) {
 		return false
 	})
 
-	delta := time.Now().Sub(startTime) / time.Millisecond
+	delta := time.Since(startTime) / time.Millisecond
 
 	if delta > 20 {
 		t.Errorf("Took too long to cancel, took %dms, expected to be under 20ms", delta)

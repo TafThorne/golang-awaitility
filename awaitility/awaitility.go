@@ -57,7 +57,7 @@ func Await(pollInterval time.Duration, atMost time.Duration, until func() bool) 
 			if conditionOk {
 				return nil
 			} else {
-				timeLeft = atMost - time.Now().Sub(startTime)
+				timeLeft = atMost - time.Since(startTime)
 
 				if timeLeft <= 0 {
 					stackTrace := string(debug.Stack())
@@ -126,7 +126,7 @@ func AwaitBlocking(pollInterval time.Duration, atMost time.Duration, until func(
 		if until() {
 			return nil
 		} else {
-			timeLeft = atMost - time.Now().Sub(startTime)
+			timeLeft = atMost - time.Since(startTime)
 
 			if timeLeft <= 0 {
 				stackTrace := string(debug.Stack())
